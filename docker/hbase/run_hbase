@@ -1,0 +1,3 @@
+ls
+exec ./hbase-1.2.3/bin/start-hbase.sh
+exec ./hbase-1.2.3/bin/hbase-daemon.sh start thrift
