@@ -1,9 +1,9 @@
 {
-  "name": "missioncontrol",
-  "description": " Backend service powering the Mission Control dashboard",
+  "name": "taar-api",
+  "description": "TAAR API",
   "repository": {
-    "url": "https://github.com/mozilla/missioncontrol/",
+    "url": "https://github.com/mozilla/taar-api",
     "license": "MPL 2.0",
-    "tests": "https://travis-ci.org/mozilla/missioncontrol/"
+    "tests": "https://travis-ci.org/mozilla/taar-api"
   }
 }
