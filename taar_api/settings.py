@@ -242,5 +242,5 @@ LOGGING = {
 
 TAAR_MAX_RESULTS = 10
 
-AWS_DEFAULT_REGION = config("AWS_DEFAULT_REGION", default="us-west-2")
-os.environ["AWS_DEFAULT_REGION"] = AWS_DEFAULT_REGION
+HBASE_HOST = config("HBASE_HOST", default="172.31.23.247")
+HBASE_TABLE = config("HBASE_TABLE", default="main_summary")
