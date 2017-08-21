@@ -242,5 +242,5 @@ LOGGING = {
 
 TAAR_MAX_RESULTS = 10
 
-HBASE_HOST = config("HBASE_HOST", default="172.31.23.247")
+HBASE_HOST = config("HBASE_HOST", default="172.31.10.129")
 HBASE_TABLE = config("HBASE_TABLE", default="main_summary")
