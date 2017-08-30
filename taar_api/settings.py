@@ -232,6 +232,11 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
+        'taar': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'request.summary': {
             'level': 'DEBUG',
             'handlers': ['console'],
