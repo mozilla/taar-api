@@ -7,7 +7,8 @@ RUN useradd --uid 1000 --no-create-home --home-dir /app webdev
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential python3 python3-dev python3-pip \
-                                               libpq-dev postgresql-client gettext curl && \
+                                               libpq-dev postgresql-client gettext curl \
+                                               libopenblas-dev libatlas3-base gfortran && \
     rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
