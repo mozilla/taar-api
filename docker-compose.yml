@@ -26,6 +26,7 @@ services:
       - CACHE_URL=redis://redis:6379/1
       - LOGGING_USE_JSON=0
       - HBASE_HOST=hbase
+      - EXTRA_APPS=taar_api.hbase
 
     command:
       "web-dev"
