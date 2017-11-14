@@ -13,6 +13,17 @@ CACHE_EXPIRATION = 24 * 60 * 60
 def recommendations(request, client_id):
     """Return a list of recommendations provided a telemetry client_id."""
     recommendation_manager = cache.get("recommendation_manager")
+
+    extra_data = {}
+
+    locale = request.GET.get('locale', None)
+    if locale is not None:
+        extra_data['locale'] = locale
+
+    platform = request.GET.get('platform', None)
+    if platform is not None:
+        extra_data['platform'] = platform
+
     if recommendation_manager is None:
         hbase_client = HBaseClient(settings.HBASE_HOST)
         profile_fetcher = ProfileFetcher(hbase_client)
@@ -20,5 +31,7 @@ def recommendations(request, client_id):
         cache.set("recommendation_manager",
                   recommendation_manager,
                   CACHE_EXPIRATION)
-    recommendations = recommendation_manager.recommend(client_id, settings.TAAR_MAX_RESULTS)
+    recommendations = recommendation_manager.recommend(client_id,
+                                                       settings.TAAR_MAX_RESULTS,
+                                                       extra_data)
     return JsonResponse({"results": recommendations})
