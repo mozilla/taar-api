@@ -9,7 +9,8 @@ from .api import urls as api_urls
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
-    url(r'^admin/', include(admin.site.urls)),
+    # Remove visible administration panel from public API.
+    # url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(api_urls)),
 
     # contribute.json url
