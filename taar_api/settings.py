@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'dockerflow.django',
 
     # Django apps
-    'django.contrib.admin',
+    # Remove the admin panel from public API.
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
