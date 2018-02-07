@@ -248,5 +248,5 @@ LOGGING = {
 
 TAAR_MAX_RESULTS = 10
 
-HBASE_HOST = config("HBASE_HOST", default="172.31.10.129")
-HBASE_TABLE = config("HBASE_TABLE", default="addon_recommender_view")
+DYNAMO_TABLE_NAME = 'taar_addon_data_20180206'
+DYNAMO_REGION = 'us-west-2'
