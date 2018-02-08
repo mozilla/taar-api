@@ -55,22 +55,26 @@ class PlatformRecommendationManager(FakeRecommendationManager):
 
 @pytest.fixture
 def empty_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar.recommenders.RecommendationManager', EmptyRecommendationManager)
+    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+                        EmptyRecommendationManager())
 
 
 @pytest.fixture
 def static_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar.recommenders.RecommendationManager', StaticRecommendationManager)
+    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+                        StaticRecommendationManager())
 
 
 @pytest.fixture
 def locale_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar.recommenders.RecommendationManager', LocaleRecommendationManager)
+    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+                        LocaleRecommendationManager())
 
 
 @pytest.fixture
 def platform_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar.recommenders.RecommendationManager', PlatformRecommendationManager)
+    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+                        PlatformRecommendationManager())
 
 
 def test_empty_recommendation(dummy_cache, client, empty_recommendation_manager):

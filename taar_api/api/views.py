@@ -3,18 +3,30 @@ from django.http import JsonResponse
 
 from taar import recommenders
 from taar.profile_fetcher import ProfileFetcher
-from taar.dynamo import ProfileController
+from taar import ProfileController
 
 # Cache the recommendation manager for 24hrs (in seconds).
 VALID_BRANCHES = set(['linear', 'ensemble', 'control'])
 
-RECOMMENDATION_MANAGER = None
+
+class ResourceProxy(object):
+    def __init__(self):
+        self._resource = None
+
+    def setResource(self, rsrc):
+        self._resource = rsrc
+
+    def getResource(self):
+        return self._resource
+
+
+PROXY_MANAGER = ResourceProxy()
 
 
 def recommendations(request, client_id):
     """Return a list of recommendations provided a telemetry client_id."""
-    # Use the module global RECOMMENDATION_MANAGER
-    global RECOMMENDATION_MANAGER
+    # Use the module global PROXY_MANAGER
+    global PROXY_MANAGER
 
     branch = request.GET.get('branch', '')
 
@@ -33,12 +45,15 @@ def recommendations(request, client_id):
     if platform is not None:
         extra_data['platform'] = platform
 
-    if RECOMMENDATION_MANAGER is None:
+    if PROXY_MANAGER.getResource() is None:
         dynamo_client = ProfileController(region_name=settings.DYNAMO_REGION,
                                           table_name=settings.DYNAMO_TABLE_NAME)
         profile_fetcher = ProfileFetcher(dynamo_client)
-        RECOMMENDATION_MANAGER = recommenders.RecommendationManager(profile_fetcher)
-    recommendations = RECOMMENDATION_MANAGER.recommend(client_id,
-                                                       limit=settings.TAAR_MAX_RESULTS,
-                                                       extra_data=extra_data)
+        instance = recommenders.RecommendationManager(profile_fetcher)
+        PROXY_MANAGER.setResource(instance)
+
+    instance = PROXY_MANAGER.getResource()
+    recommendations = instance.recommend(client_id=client_id,
+                                         limit=settings.TAAR_MAX_RESULTS,
+                                         extra_data=extra_data)
     return JsonResponse({"results": recommendations})

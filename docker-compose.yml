@@ -17,7 +17,6 @@ services:
     depends_on:
       - db
       - redis
-      - hbase
     environment:
       - DATABASE_URL=postgres://postgres@db/postgres
       - DEBUG=True
@@ -25,15 +24,6 @@ services:
       - SECRET_KEY=59114b6a-2858-4caf-8878-482a24ee9542
       - CACHE_URL=redis://redis:6379/1
       - LOGGING_USE_JSON=0
-      - HBASE_HOST=hbase
 
     command:
       "web-dev"
-  hbase:
-    logging:
-      driver: "none"
-    build: ./docker/hbase
-    ports:
-      - "9090:9090"
-    command:
-      "/opt/run_hbase"
