@@ -56,4 +56,6 @@ def recommendations(request, client_id):
     recommendations = instance.recommend(client_id=client_id,
                                          limit=settings.TAAR_MAX_RESULTS,
                                          extra_data=extra_data)
-    return JsonResponse({"results": recommendations})
+    # Strip out weights from TAAR results to maintain compatibility
+    # with TAAR 1.0
+    return JsonResponse({"results": [x[0] for x in recommendations]})
