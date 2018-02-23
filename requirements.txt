@@ -153,8 +153,8 @@ coverage==4.3.4 \
     --hash=sha256:6c9bd3924052151b1a4f157d860f57d17708962deb4258739ae406d9376da77d \
     --hash=sha256:9ddd809ce195ec60aec6d8dacec433b1ac55f6076f773253208dd35dfd9b59bc \
     --hash=sha256:0962e9764e44172a72fa6e486aeb87d714f7018619ff41eb7c67b03fc53d122a
-mozilla-taar2==0.0.22 \
-    --hash=sha256:8e2e36a9c374ba11ed1bc0a505e23afc4129a46793f0d29255fc91fd94852175
+mozilla-taar3==0.0.22 \
+    --hash=sha256:af34fc41dff3cfea69c4d6fbfd5b4bbc571e4e50b0df0faa3928a9b292ecdaf6
 numpy==1.13.1 \
     --hash=sha256:c9b0283776085cb2804efff73e9955ca279ba4edafd58d3ead70b61d209c4fbb
 thriftpy==0.3.9 \
