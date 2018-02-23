@@ -27,21 +27,24 @@ class EmptyRecommendationManager(FakeRecommendationManager):
 
 class StaticRecommendationManager(FakeRecommendationManager):
 
+    # Recommenders must return a list of 2-tuple results
+    # with (GUID, weight)
     def recommend(self, client_id, limit, extra_data={}):
         branch_id = extra_data.get('branch', 'control')
         data = {'branch': branch_id}
-        return [
-            '%(branch)s-addon-1' % data,
-            '%(branch)s-addon-2' % data,
-            '%(branch)s-addon-N' % data,
+        result = [
+            ('%(branch)s-addon-1' % data, 1.0),
+            ('%(branch)s-addon-2' % data, 1.0),
+            ('%(branch)s-addon-N' % data, 1.0),
         ]
+        return result
 
 
 class LocaleRecommendationManager(FakeRecommendationManager):
 
     def recommend(self, client_id, limit, extra_data={}):
         if extra_data.get('locale', None) == "en-US":
-            return ['addon-Locale']
+            return [('addon-Locale', 1.0)]
         return []
 
 
@@ -49,7 +52,7 @@ class PlatformRecommendationManager(FakeRecommendationManager):
 
     def recommend(self, client_id, limit, extra_data={}):
         if extra_data.get('platform', None) == "WOW64":
-            return ['addon-WOW64']
+            return [('addon-WOW64', 1.0)]
         return []
 
 
@@ -88,7 +91,8 @@ def test_static_recommendation(dummy_cache, client, static_recommendation_manage
     response = client.get(reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())}))
     assert response.status_code == 200
     assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
+    expected = b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
+    assert response.content == expected
 
 
 def test_locale_recommendation(dummy_cache, client, locale_recommendation_manager):
@@ -124,7 +128,8 @@ def test_linear_branch(dummy_cache, client, static_recommendation_manager):
     response = client.get(url + "?branch=linear")
     assert response.status_code == 200
     assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
+    expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
+    assert response.content == expected
 
 
 def test_ensemble_branch(dummy_cache, client, static_recommendation_manager):
@@ -132,7 +137,8 @@ def test_ensemble_branch(dummy_cache, client, static_recommendation_manager):
     response = client.get(url + "?branch=ensemble")
     assert response.status_code == 200
     assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
+    expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
+    assert response.content == expected
 
 
 def test_control_branch(dummy_cache, client, static_recommendation_manager):
@@ -140,4 +146,5 @@ def test_control_branch(dummy_cache, client, static_recommendation_manager):
     response = client.get(url + "?branch=control")
     assert response.status_code == 200
     assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
+    expected = b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
+    assert response.content == expected
