@@ -49,7 +49,8 @@ def recommendations(request, client_id):
         dynamo_client = ProfileController(region_name=settings.DYNAMO_REGION,
                                           table_name=settings.DYNAMO_TABLE_NAME)
         profile_fetcher = ProfileFetcher(dynamo_client)
-        instance = recommenders.RecommendationManager(profile_fetcher)
+        r_factory = recommenders.RecommenderFactory()
+        instance = recommenders.RecommendationManager(r_factory, profile_fetcher)
         PROXY_MANAGER.setResource(instance)
 
     instance = PROXY_MANAGER.getResource()
