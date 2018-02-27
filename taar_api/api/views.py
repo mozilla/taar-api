@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 from taar import recommenders
+from taar.context import default_context
 from taar.profile_fetcher import ProfileFetcher
 from taar import ProfileController
 
@@ -46,11 +47,17 @@ def recommendations(request, client_id):
         extra_data['platform'] = platform
 
     if PROXY_MANAGER.getResource() is None:
+        ctx = default_context()
         dynamo_client = ProfileController(region_name=settings.DYNAMO_REGION,
                                           table_name=settings.DYNAMO_TABLE_NAME)
         profile_fetcher = ProfileFetcher(dynamo_client)
-        r_factory = recommenders.RecommenderFactory()
-        instance = recommenders.RecommendationManager(r_factory, profile_fetcher)
+        ctx['profile_fetcher'] = profile_fetcher
+
+        # Lock the context down after we've got basic bits installed
+        root_ctx = ctx.child()
+        r_factory = recommenders.RecommenderFactory(root_ctx)
+        root_ctx['recommender_factory'] = r_factory
+        instance = recommenders.RecommendationManager(root_ctx.child())
         PROXY_MANAGER.setResource(instance)
 
     instance = PROXY_MANAGER.getResource()
