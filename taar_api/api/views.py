@@ -5,7 +5,6 @@ from taar import recommenders
 from taar.context import default_context
 from taar.profile_fetcher import ProfileFetcher
 from taar import ProfileController
-from taar.recommender import utils
 
 # Cache the recommendation manager for 24hrs (in seconds).
 VALID_BRANCHES = set(['linear', 'ensemble', 'control'])
@@ -53,7 +52,6 @@ def recommendations(request, client_id):
                                           table_name=settings.DYNAMO_TABLE_NAME)
         profile_fetcher = ProfileFetcher(dynamo_client)
 
-        ctx['utils'] = utils  # This is required for S3 access
         ctx['profile_fetcher'] = profile_fetcher
 
         # Lock the context down after we've got basic bits installed
