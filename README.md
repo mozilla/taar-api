@@ -1,7 +1,7 @@
 # Taar Api
 
-[![CircleCI](https://img.shields.io/circleci/project/github/mozilla/taar_api/master.svg)](https://circleci.com/gh/mozilla/taar_api)
-[![codecov](https://codecov.io/gh/mozilla/taar_api/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla/taar_api)
+[![CircleCI](https://img.shields.io/circleci/project/github/mozilla/taar-api/master.svg)](https://circleci.com/gh/mozilla/taar-api)
+[![codecov](https://codecov.io/gh/mozilla/taar-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla/taar-api)
 
 Dockerflow cookiecutter contains all the boilerplate you need to create a Dockerflow-compliant project.
 
