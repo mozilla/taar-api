@@ -31,6 +31,9 @@ def recommendations(request, client_id):
 
     branch = request.GET.get('branch', '')
 
+    if branch.endswith('-taar'):
+        branch = branch.replace("-taar", "")
+
     if branch not in VALID_BRANCHES:
         # Force branch to be a control branch if an invalid request
         # comes in.
