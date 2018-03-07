@@ -131,10 +131,23 @@ def test_linear_branch(dummy_cache, client, static_recommendation_manager):
     expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
     assert response.content == expected
 
+    response = client.get(url + "?branch=linear-taar")
+    assert response.status_code == 200
+    assert response['Content-Type'] == 'application/json'
+    expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
+    assert response.content == expected
+
 
 def test_ensemble_branch(dummy_cache, client, static_recommendation_manager):
     url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
     response = client.get(url + "?branch=ensemble")
+    assert response.status_code == 200
+    assert response['Content-Type'] == 'application/json'
+    expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
+    assert response.content == expected
+
+    url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
+    response = client.get(url + "?branch=ensemble-taar")
     assert response.status_code == 200
     assert response['Content-Type'] == 'application/json'
     expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
