@@ -4,31 +4,17 @@ import pytest
 import uuid
 
 
-def reverse(*args, **kwargs): pass
-
-
 @pytest.fixture
 def app():
     return flask_app
 
 
-@pytest.fixture
-def dummy_cache(settings):
-    settings.CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
-    }
-
-
 class FakeRecommendationManager(object):
-
     def __init__(self, *args, **kwargs):
         pass
 
 
 class EmptyRecommendationManager(FakeRecommendationManager):
-
     def recommend(self, client_id, limit, extra_data={}):
         return []
 
@@ -66,119 +52,103 @@ class PlatformRecommendationManager(FakeRecommendationManager):
 
 @pytest.fixture
 def empty_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
                         EmptyRecommendationManager())
 
 
 @pytest.fixture
 def static_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
                         StaticRecommendationManager())
 
 
 @pytest.fixture
 def locale_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
                         LocaleRecommendationManager())
 
 
 @pytest.fixture
 def platform_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.api.views.PROXY_MANAGER._resource',
+    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
                         PlatformRecommendationManager())
 
 
-@pytest.mark.skip("port to flask")
-def test_empty_recommendation(dummy_cache, client, empty_recommendation_manager):
-    response = client.get(reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())}))
+def test_empty_recommendation(client, empty_recommendation_manager):
+    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": []}'
+    assert response.headers['Content-Type'] == 'application/json'
+    assert response.data == b'{"results": []}'
 
 
-@pytest.mark.skip("port to flask")
-def test_static_recommendation(dummy_cache, client, static_recommendation_manager):
-    response = client.get(reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())}))
+def test_static_recommendation(client, static_recommendation_manager):
+    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
-    assert response.content == expected
+    assert response.data == expected
 
 
-@pytest.mark.skip("port to flask")
-def test_locale_recommendation(dummy_cache, client, locale_recommendation_manager):
-    kwargs = {'client_id': str(uuid.uuid4())}
-    response = client.get(reverse('recommendations', kwargs=kwargs), {'locale': 'en-US'})
+def test_locale_recommendation(client, locale_recommendation_manager):
+    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4())+"?locale=en-US")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["addon-Locale"]}'
+    assert response.headers['Content-Type'] == 'application/json'
+    assert response.data == b'{"results": ["addon-Locale"]}'
 
-    kwargs = {'client_id': str(uuid.uuid4())}
-    response = client.get(reverse('recommendations', kwargs=kwargs))
+    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": []}'
+    assert response.headers['Content-Type'] == 'application/json'
+    assert response.data == b'{"results": []}'
 
 
-@pytest.mark.skip("port to flask")
-def test_platform_recommendation(dummy_cache, client, platform_recommendation_manager):
-    kwargs = {'client_id': str(uuid.uuid4())}
-    response = client.get(reverse('recommendations', kwargs=kwargs), {'platform': 'WOW64'})
+def test_platform_recommendation(client, platform_recommendation_manager):
+    uri = url_for('recommendations', uuid_client_id=str(uuid.uuid4()))+"?platform=WOW64"
+    response = client.get(uri)
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": ["addon-WOW64"]}'
+    assert response.headers['Content-Type'] == 'application/json'
+    assert response.data == b'{"results": ["addon-WOW64"]}'
 
-    kwargs = {'client_id': str(uuid.uuid4())}
-    response = client.get(reverse('recommendations', kwargs=kwargs))
+    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
-    assert response.content == b'{"results": []}'
+    assert response.headers['Content-Type'] == 'application/json'
+    assert response.data == b'{"results": []}'
 
 
-@pytest.mark.skip("port to flask")
-def test_linear_branch(dummy_cache, client, static_recommendation_manager):
-    url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
+def test_linear_branch(client, static_recommendation_manager):
+    url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=linear")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
-    assert response.content == expected
+    assert response.data == expected
 
     response = client.get(url + "?branch=linear-taar")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
-    assert response.content == expected
+    assert response.data == expected
 
 
-@pytest.mark.skip("port to flask")
-def test_ensemble_branch(dummy_cache, client, static_recommendation_manager):
-    url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
+def test_ensemble_branch(client, static_recommendation_manager):
+    url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=ensemble")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
-    assert response.content == expected
+    assert response.data == expected
 
-    url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
+    url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=ensemble-taar")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
-    assert response.content == expected
+    assert response.data == expected
 
 
-@pytest.mark.skip("port to flask")
-def test_control_branch(dummy_cache, client, static_recommendation_manager):
-    url = reverse('recommendations', kwargs={'client_id': str(uuid.uuid4())})
+def test_control_branch(client, static_recommendation_manager):
+    url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=control")
     assert response.status_code == 200
-    assert response['Content-Type'] == 'application/json'
+    assert response.headers['Content-Type'] == 'application/json'
     expected = b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
-    assert response.content == expected
-
-
-def test_basic_get(client):
-    url = url_for('recommendations', client_id=str(uuid.uuid4()))
-    res = client.get(url)
-    assert res.json == {'result': 'Flask Dockerized'}
+    assert response.data == expected
