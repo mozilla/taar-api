@@ -37,11 +37,14 @@ class ResourceProxy(object):
 PROXY_MANAGER = ResourceProxy()
 
 
-@app.route('/api/recommendations/<uuid:client_id>/')
-def recommendations(client_id):
+@app.route('/api/recommendations/<uuid:uuid_client_id>/')
+def recommendations(uuid_client_id):
     """Return a list of recommendations provided a telemetry client_id."""
     # Use the module global PROXY_MANAGER
     global PROXY_MANAGER
+
+    # Coerce the uuid.UUID type into a string
+    client_id = str(uuid_client_id)
 
     branch = request.args.get('branch', '')
 
