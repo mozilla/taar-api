@@ -11,11 +11,16 @@ from taar.context import default_context
 from taar.profile_fetcher import ProfileFetcher
 from taar import ProfileController
 import json
+from decouple import config
 
 app = Flask(__name__)
 dockerflow = Dockerflow(app)
 
 VALID_BRANCHES = set(['linear', 'ensemble', 'control'])
+
+DYNAMO_REGION = config('DYNAMO_REGION', default='us-west-2')
+DYNAMO_TABLE_NAME = config('DYNAMO_TABLE_NAME', default='taar_addon_data_20180206')
+TAAR_MAX_RESULTS = config('TAAR_MAX_RESULTS', default=10, cast=int)
 
 
 class ResourceProxy(object):
@@ -60,9 +65,8 @@ def recommendations(client_id):
 
     if PROXY_MANAGER.getResource() is None:
         ctx = default_context()
-        # TODO: fix this with config
-        dynamo_client = ProfileController(region_name='us-west-2',
-                                          table_name='taar_addon_data_20180206')
+        dynamo_client = ProfileController(region_name=DYNAMO_REGION,
+                                          table_name=DYNAMO_TABLE_NAME)
         profile_fetcher = ProfileFetcher(dynamo_client)
 
         ctx['profile_fetcher'] = profile_fetcher
@@ -75,9 +79,8 @@ def recommendations(client_id):
         PROXY_MANAGER.setResource(instance)
 
     instance = PROXY_MANAGER.getResource()
-    # TODO: fix the 10 with config
     recommendations = instance.recommend(client_id=client_id,
-                                         limit=10,
+                                         limit=TAAR_MAX_RESULTS,
                                          extra_data=extra_data)
     # Strip out weights from TAAR results to maintain compatibility
     # with TAAR 1.0
