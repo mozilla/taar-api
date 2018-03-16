@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='taar_api',
-    version='0.2dev',
+    version='0.3',
     description='This is https://github.com/mozilla/taar_api',
     author='Mozilla Foundation',
     author_email='',

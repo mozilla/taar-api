@@ -4,7 +4,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 MAINTAINER Victor Ng <vng@mozilla.com>
 EXPOSE 8000
 
-RUN useradd --uid 1000 --no-create-home --home-dir /app webdev
+# add a non-privileged user for installing and running
+# the application
+RUN groupadd --gid 10001 app && \
+    useradd --uid 10001 --gid 10001 --home /app --create-home app 
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential gettext curl \
@@ -22,8 +25,7 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --require-hashes --no-cache-dir -r requirements.txt
 
 COPY . /app
-RUN chown webdev:webdev -R .
-USER webdev
+USER app
 
 
 # Using /bin/bash as the entrypoint works around some volume mount issues on Windows
