@@ -11,16 +11,13 @@ RUN apt-get update && \
                                                libopenblas-dev libatlas3-base gfortran && \
     rm -rf /var/lib/apt/lists/*
 
-# Using PIL or Pillow? You probably want to uncomment next line
-# RUN apt-get update && apt-get install -y --no-install-recommends libjpeg8-dev
-
 WORKDIR /app
 
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# First copy requirements.txt and peep so we can take advantage of
-# docker caching.
+# First copy requirements.txt so we can take advantage of docker
+# caching.
 COPY requirements.txt /app/requirements.txt
 RUN pip install --require-hashes --no-cache-dir -r requirements.txt
 
