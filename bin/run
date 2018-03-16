@@ -28,16 +28,14 @@ wait_for() {
 
 # Only wait for backend services in development
 # http://stackoverflow.com/a/13864829
-[ ! -z ${DEVELOPMENT+check} ] && wait_for db 5432 && wait_for redis 6379
+# [ ! -z ${DEVELOPMENT+check} ] && wait_for db 5432 && wait_for redis 6379
 
 case $1 in
   web)
-    newrelic-admin run-python manage.py migrate --noinput
-    exec newrelic-admin run-program gunicorn taar_api.wsgi:application -b 0.0.0.0:${PORT} --workers 4 --access-logfile -
+    exec newrelic-admin run-program gunicorn taar_api.app:app -b 0.0.0.0:${PORT} --workers 4 --access-logfile -
     ;;
   web-dev)
-    python manage.py migrate --noinput
-    exec python manage.py runserver 0.0.0.0:${PORT}
+    exec python taar_api/app.py
     ;;
   test)
     coverage erase
