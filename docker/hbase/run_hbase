@@ -1,5 +1,0 @@
-#!/bin/bash
-ls
-/hbase/bin/hbase-daemon.sh foreground_start master &
-/hbase/bin/hbase-daemon.sh foreground_start thrift &
-wait
