@@ -35,7 +35,7 @@ case $1 in
     exec newrelic-admin run-program gunicorn taar_api.app:app -b 0.0.0.0:${PORT} --workers 4 --access-logfile -
     ;;
   web-dev)
-    exec python taar_api/app.py --port=${PORT}
+    exec python taar_api/app.py --host=0.0.0.0 --port=${PORT}
     ;;
   test)
     coverage erase
