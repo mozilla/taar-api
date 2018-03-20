@@ -16,7 +16,7 @@ build:
 	docker-compose build
 
 shell:
-	docker-compose run web bash
+	docker-compose run --publish=8000:8000 web bash 
 
 django-shell:
 	docker compose run web manage.py shell
