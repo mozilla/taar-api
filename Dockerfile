@@ -10,8 +10,7 @@ RUN groupadd --gid 10001 app && \
     useradd --uid 10001 --gid 10001 --home /app --create-home app 
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential gettext curl \
-                                               libopenblas-dev libatlas3-base gfortran && \
+    apt-get install -y --no-install-recommends build-essential gettext curl && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
