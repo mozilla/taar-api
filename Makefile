@@ -5,7 +5,6 @@ help:
 	@echo "The list of commands for local development:\n"
 	@echo "  build          Builds the docker images for the docker-compose setup"
 	@echo "  shell          Opens a Bash shell"
-	@echo "  django-shell   Opens a Bash shell"
 	@echo "  up         	Runs the whole stack, served under http://localhost:8000/"
 	@echo "  tests      	Run pytest tests using tox"
 	@echo "  flake8     	Run flake8 using tox"
@@ -17,9 +16,6 @@ build:
 
 shell:
 	docker-compose run --publish=8000:8000 web bash 
-
-django-shell:
-	docker compose run web manage.py shell
 
 up:
 	docker-compose up
@@ -35,5 +31,4 @@ ci:
 
 # Updating pip hashes is awful
 freeze:
-	touch requirements.txt
-	pip freeze |grep -v hashin| sed -e "s/==.*//"|xargs hashin
+	bin/hashfreeze
