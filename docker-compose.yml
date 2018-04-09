@@ -2,8 +2,6 @@ version: "2"
 services:
   web:
     environment:
-      - DYNAMO_REGION=us-west-2
-      - DYNAMO_TABLE_NAME=taar_addon_data_20180206
       - TAAR_MAX_RESULTS=10
     build: .
     ports:
