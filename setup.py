@@ -3,11 +3,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='taar_api',
+    name='taar_api_lite',
     version='0.3',
-    description='This is https://github.com/mozilla/taar_api',
+    description=""" Flask webservice for deploying Mozilla taar-lite.
+This is a fork of the previous Django webservice implementation.""",
     author='Mozilla Foundation',
-    author_email='',
-    url='https://github.com/mozilla/taar_api',
+    url='https://github.com/mozilla/taar-api-lite',
     packages=find_packages(exclude=['tests', 'tests/*']),
 )
