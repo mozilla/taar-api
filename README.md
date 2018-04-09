@@ -1,7 +1,7 @@
 # Taar Api
 
-[![CircleCI](https://img.shields.io/circleci/project/github/mozilla/taar-api/master.svg)](https://circleci.com/gh/mozilla/taar-api)
-[![codecov](https://codecov.io/gh/mozilla/taar-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla/taar-api)
+[![CircleCI](https://img.shields.io/circleci/project/github/mozilla/taar-api-lite/master.svg)](https://circleci.com/gh/mozilla/taar-api-lite)
+[![codecov](https://codecov.io/gh/mozilla/taar-api-lite/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla/taar-api-lite)
 
 Dockerflow cookiecutter contains all the boilerplate you need to create a Dockerflow-compliant project.
 
@@ -22,13 +22,13 @@ From a services standpoint, this project requires:
 
 ### Updating Taar
 
-The core of taar-service lives in the [mozilla-taar](https://pypi.python.org/pypi/mozilla-taar) python package.
-These are the steps required to deploy a new version of mozilla-taar on taar-api using [hashin](https://pypi.python.org/pypi/hashin):
+The core of taar-service lives in the [mozilla-taarlite](https://pypi.python.org/pypi/mozilla-taarlite) python package.
+These are the steps required to deploy a new version of mozilla-taar on taar-api-lite using [hashin](https://pypi.python.org/pypi/hashin):
 
 From the root of the repository:
 
 ```bash
-hashin mozilla-taar==<major>.<minor>.<patch>
+hashin mozilla-taarlite==<major>.<minor>.<patch>
 ```
 Then open a pull request with the changes to requirements.txt. Once it's merged to master, the taar api dev service will automatically
 update.
