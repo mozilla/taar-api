@@ -3,6 +3,8 @@ services:
   web:
     environment:
       - TAAR_MAX_RESULTS=10
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_ACCESS_KEY_ID
     build: .
     ports:
       - "8000:8000"
