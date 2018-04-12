@@ -1,7 +1,14 @@
 version: "2"
 services:
+  redis:
+    image: redis:3.2
+    logging:
+      driver: "none"
+    ports:
+      - "6379:6379"
   web:
     environment:
+      # Pickup the AWS secret and access key from host env
       - TAAR_MAX_RESULTS=10
       - AWS_SECRET_ACCESS_KEY
       - AWS_ACCESS_KEY_ID
