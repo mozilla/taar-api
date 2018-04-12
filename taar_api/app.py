@@ -33,14 +33,11 @@ class ResourceProxy(object):
 PROXY_MANAGER = ResourceProxy()
 
 
-@app.route('/taarlite/api/v1/addon_recommendations/<uuid:guid>/')
+@app.route('/taarlite/api/v1/addon_recommendations/<string:guid>/')
 def recommendations(guid):
     """Return a list of recommendations provided a telemetry client_id."""
     # Use the module global PROXY_MANAGER
     global PROXY_MANAGER
-
-    # Coerce the uuid.UUID type into a string
-    guid = str(guid)
 
     if PROXY_MANAGER.getResource() is None:
         ctx = default_context()
