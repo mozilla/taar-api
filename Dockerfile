@@ -16,7 +16,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Upgrade pip
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip==9
 
 # First copy requirements.txt so we can take advantage of docker
 # caching.
