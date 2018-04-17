@@ -1,4 +1,4 @@
-FROM python:3.4.8-jessie
+FROM python:3.6.5-jessie
 ENV PYTHONDONTWRITEBYTECODE 1
 
 MAINTAINER Victor Ng <vng@mozilla.com>
