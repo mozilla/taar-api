@@ -8,18 +8,13 @@
 
 version: 2
 jobs:
-  build:
+  build_deploy:
     machine:
       enable: true
       docker_layer_caching: true
     steps:
       - checkout
       - run: ./bin/build
-  deploy:
-    machine:
-      enable: true
-      docker_layer_caching: true
-    steps:
       - run: ./bin/deploy
   integration_test:
     machine:
@@ -43,17 +38,9 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - build:
+      - build_deploy:
           requires:
             - integration_test
-          filters:
-            tags:
-              only: /.*/
-            branches:
-              only: master
-      - deploy:
-          requires:
-            - build
           filters:
             tags:
               only: /.*/
