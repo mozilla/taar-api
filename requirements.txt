@@ -182,8 +182,8 @@ ipython_genutils==0.2.0 \
 jedi==0.11.1 \
     --hash=sha256:d795f2c2e659f5ea39a839e5230d70a0b045d0daee7ca2403568d8f348d0ad89 \
     --hash=sha256:d6e799d04d1ade9459ed0f20de47c32f2285438956a677d083d3c98def59fa97
-mozilla-taarlite==0.1.5 \
-    --hash=sha256:8fa1c0659d5a151dfc87cad8fc16bb42161010829e6d9e6c84d2a0bf7f331777
+mozilla-taarlite==0.1.6 \
+    --hash=sha256:e78104be2422a3146e7d3efe3d9aa7de2fdac24f318cd50b482238df5921e7ed
 parso==0.1.1 \
     --hash=sha256:a7bb86fe0844304869d1c08e8bd0e52be931228483025c422917411ab82d628a \
     --hash=sha256:5815f3fe254e5665f3c5d6f54f086c2502035cb631a91341591b5a564203cffb
@@ -251,5 +251,5 @@ more-itertools==4.1.0 \
 backcall==0.1.0 \
     --hash=sha256:38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4 \
     --hash=sha256:bbbf4b1e5cd2bdb08f915895b51081c041bac22394fdfcfdfbe9f14b77c08bf2
-mozilla-srgutil==0.1.5 \
-    --hash=sha256:9d25b3b6dd81bc24ddac4f7be845227e41d4a37e99f2a7acd2a165f6941eb4ca
+mozilla-srgutil==0.1.6 \
+    --hash=sha256:e02d46d94bbf4b7cb88dd6e780c98890dafee50259e9faa655dd456bd2a18115
