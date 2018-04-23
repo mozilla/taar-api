@@ -7,7 +7,6 @@ from dockerflow.flask import Dockerflow
 
 from taar_lite.recommenders import GuidBasedRecommender
 from srgutil.context import default_context
-from taar_api.context import Logging, IMozLogging
 
 import json
 from decouple import config
@@ -43,9 +42,6 @@ def recommendations(guid):
 
     if PROXY_MANAGER.getResource() is None:
         ctx = default_context()
-
-        # Install logging
-        ctx[IMozLogging] = Logging(ctx)
 
         # Lock the context down after we've got basic bits installed
         root_ctx = ctx.child()
