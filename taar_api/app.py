@@ -7,6 +7,7 @@ from dockerflow.flask import Dockerflow
 
 from taar_lite.recommenders import GuidBasedRecommender
 from srgutil.context import default_context
+
 import json
 from decouple import config
 import optparse
@@ -16,7 +17,7 @@ dockerflow = Dockerflow(app)
 
 VALID_BRANCHES = set(['linear', 'ensemble', 'control'])
 
-TAAR_MAX_RESULTS = config('TAAR_MAX_RESULTS', default=10, cast=int)
+TAAR_MAX_RESULTS = config('TAAR_MAX_RESULTS', default=4, cast=int)
 
 
 class ResourceProxy(object):
@@ -44,6 +45,7 @@ def recommendations(guid):
 
         # Lock the context down after we've got basic bits installed
         root_ctx = ctx.child()
+
         instance = GuidBasedRecommender(root_ctx)
         PROXY_MANAGER.setResource(instance)
 
@@ -51,6 +53,10 @@ def recommendations(guid):
     cdict = {'guid': guid}
     recommendations = instance.recommend(client_data=cdict,
                                          limit=TAAR_MAX_RESULTS)
+
+    if len(recommendations) != TAAR_MAX_RESULTS:
+        recommendations = []
+
     # Strip out weights from TAAR results to maintain compatibility
     # with TAAR 1.0
     jdata = {"results": [x[0] for x in recommendations]}
