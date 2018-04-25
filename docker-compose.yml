@@ -9,7 +9,7 @@ services:
   web:
     environment:
       # Pickup the AWS secret and access key from host env
-      - TAAR_MAX_RESULTS=10
+      - TAAR_MAX_RESULTS=4
       - AWS_SECRET_ACCESS_KEY
       - AWS_ACCESS_KEY_ID
     build: .
