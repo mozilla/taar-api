@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from flask import Flask
+from flask import request
 from dockerflow.flask import Dockerflow
 
 from taar_lite.recommenders import GuidBasedRecommender
@@ -50,7 +51,10 @@ def recommendations(guid):
         PROXY_MANAGER.setResource(instance)
 
     instance = PROXY_MANAGER.getResource()
-    cdict = {'guid': guid}
+
+    normalization_type = request.args.get('normalize', None)
+
+    cdict = {'guid': guid, 'normalize': normalization_type}
     recommendations = instance.recommend(client_data=cdict,
                                          limit=TAAR_MAX_RESULTS)
 
