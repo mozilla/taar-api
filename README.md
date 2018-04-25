@@ -6,8 +6,16 @@
 
 ## Instructions for development
 
+The only special thing you will need to do is to export your AWS keys
+as enviroment variables to run the dev server. The docker-compose.yml
+file specifies two keys `AWS_SECRET_ACCESS_KEY` and
+`AWS_ACCESS_KEY_ID`.  These keys are required to access the S3 buckets
+which host the data models used by TAARlite.
+
 0. Make sure you have [docker](https://docker.io) and [docker-compose](https://github.com/docker/compose)
-1. make up
+1. export AWS_SECRET_ACCESS_KEY=<your secret access key here>
+2. export AWS_ACCESS_KEY_ID=<your access key here>
+3. make up
 
 ## Instructions for deployment
 
