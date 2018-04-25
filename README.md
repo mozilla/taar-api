@@ -29,3 +29,49 @@ hashin mozilla-taarlite==<major>.<minor>.<patch>
 ```
 Then open a pull request with the changes to requirements.txt. Once
 it's merged to master, the service will automatically update.
+
+
+## Web API
+
+
+The dev service is hosted at: htps://taar.dev.mozaws.net
+
+You must include a single GUID as the last segment of a URL encoded
+path.
+
+The TAARlite service currently exposes a single URL that can be called
+with HTTP GET on the URL path : 
+
+```
+    /taarlite/api/v1/addon_recommendations/<your_guid_here>/
+```
+
+A sample invocation for the GUID `{some_addon_guid}` using curl would look like this:
+
+```bash
+curl https://taar.dev.mozaws.net/taarlite/api/v1/addon_recommendations/%7Bsome_addon_guid%7D/
+```
+
+You should get JSON output that appears in this format: 
+
+```json
+{"results": ["guid1", "guid2", "guid3", "guid4"]}
+```
+
+You may specify an optional normalization mode by passing in a CGI
+argument `normalize` using one of the following choices:
+
+* rownorm_sum
+* row_count
+* row_sum
+
+Generally - you should get the best results using `rownorm_sum`.
+
+Passing in an invalid normalization type will yield an empty `results`
+list.
+
+Example :
+
+```bash
+curl http://localhost:8000/taarlite/api/v1/addon_recommendations/%7Bsome_addon_guid%7D/?normalize=rownorm_sum
+```
