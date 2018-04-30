@@ -4,7 +4,9 @@ set -eo pipefail
 # default variables
 : "${PORT:=8000}"
 : "${SLEEP:=1}"
+: "${THREADS:=8}"
 : "${TRIES:=60}"
+: "${WORKERS:=4}"
 
 usage() {
   echo "usage: bin/run web|web-dev|test"
@@ -32,7 +34,7 @@ wait_for() {
 
 case $1 in
   web)
-    exec newrelic-admin run-program gunicorn taar_api.app:app -b 0.0.0.0:${PORT} --workers 4 --access-logfile -
+    exec newrelic-admin run-program gunicorn taar_api.app:app -b 0.0.0.0:${PORT} --workers ${WORKERS} --threads ${THREADS} --access-logfile -
     ;;
   web-dev)
     exec python taar_api/app.py --host=0.0.0.0 --port=${PORT}
