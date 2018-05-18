@@ -52,9 +52,12 @@ def recommendations(guid):
 
     instance = PROXY_MANAGER.getResource()
 
-    normalization_type = request.args.get('normalize', None)
 
-    cdict = {'guid': guid, 'normalize': normalization_type}
+    cdict = {'guid': guid}
+    normalization_type = request.args.get('normalize', None)
+    if normalization_type is not None:
+        cdict['normalize'] = normalization_type
+
     recommendations = instance.recommend(client_data=cdict,
                                          limit=TAAR_MAX_RESULTS)
 
