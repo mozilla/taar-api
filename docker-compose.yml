@@ -4,8 +4,6 @@ services:
     image: redis:3.2
     logging:
       driver: "none"
-    ports:
-      - "6379:6379"
   web:
     environment:
       # Pickup the AWS secret and access key from host env
@@ -19,3 +17,5 @@ services:
       - .:/app
     command:
       "web-dev"
+    links:
+      - redis
