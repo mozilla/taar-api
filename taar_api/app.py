@@ -7,8 +7,8 @@ from flask import request
 from dockerflow.flask import Dockerflow
 
 from taar_lite.recommenders import GuidBasedRecommender
-from srgutil.context import default_context
 from srgutil.interfaces import IMozLogging
+from srgutil.context import default_context
 
 import json
 from decouple import config
