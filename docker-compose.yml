@@ -10,6 +10,7 @@ services:
       - TAAR_MAX_RESULTS=4
       - AWS_SECRET_ACCESS_KEY
       - AWS_ACCESS_KEY_ID
+      - CACHE_URL
     build: .
     ports:
       - "8000:8000"

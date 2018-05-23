@@ -8,6 +8,7 @@ from dockerflow.flask import Dockerflow
 
 from taar_lite.recommenders import GuidBasedRecommender
 from srgutil.context import default_context
+from srgutil.interfaces import IMozLogging
 
 import json
 from decouple import config
@@ -44,7 +45,10 @@ def recommendations(guid):
 
     if PROXY_MANAGER.getResource() is None:
         ctx = default_context()
+        logger = ctx[IMozLogging].get_logger('taar-api-lite')
+
         ctx['CACHE_URL'] = CACHE_URL
+        logger.info("Set CACHE_URL to: [{}]".format(ctx['CACHE_URL']))
 
         # Lock the context down after we've got basic bits installed
         root_ctx = ctx.child()
