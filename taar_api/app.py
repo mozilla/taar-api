@@ -19,6 +19,7 @@ dockerflow = Dockerflow(app)
 VALID_BRANCHES = set(['linear', 'ensemble', 'control'])
 
 TAAR_MAX_RESULTS = config('TAAR_MAX_RESULTS', default=4, cast=int)
+CACHE_URL = config('CACHE_URL', default='redis://redis:6379/0')
 
 
 class ResourceProxy(object):
@@ -43,6 +44,7 @@ def recommendations(guid):
 
     if PROXY_MANAGER.getResource() is None:
         ctx = default_context()
+        ctx['CACHE_URL'] = CACHE_URL
 
         # Lock the context down after we've got basic bits installed
         root_ctx = ctx.child()
