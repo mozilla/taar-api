@@ -24,6 +24,7 @@ In order to run it correctly, a number of environment variables needs to be set 
 The full list of variables can be found in the web section of the docker-compose.yml file.
 From a services standpoint, this project requires:
  - an optional Redis cache service, defined by CACHE_URL
+ - redis cache expiry in seconds defined by TAAR_CACHE_EXPIRY
 
 ### Updating Taar
 
