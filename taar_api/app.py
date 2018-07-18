@@ -5,12 +5,20 @@
 from flask import Flask
 from dockerflow.flask import Dockerflow
 import optparse
+import pkg_resources
 
 app = Flask(__name__)
 dockerflow = Dockerflow(app)
 
 # Hook the application plugin and configure it
-from taar_api.app_plugin import configure_plugin
+
+app_entries = list(pkg_resources.iter_entry_points('taarapi_app'))
+
+# There should only be a single registered app for the taar-api
+assert len(app_entries) == 1
+
+# Load the function and configure the application
+configure_plugin = app_entries[0].load()
 configure_plugin(app)
 
 def flaskrun(app, default_host="127.0.0.1", default_port="8000"):
