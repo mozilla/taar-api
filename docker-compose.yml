@@ -1,10 +1,23 @@
 version: "2"
 services:
+  redis:
+    image: redis:3.2
+    logging:
+      driver: "none"
   web:
     environment:
+      # These are 'common' TAAR/TAARlite configuration
+      - TAAR_MAX_RESULTS=10
+
+      # These are TAAR specific and ignored by TAARlite
       - DYNAMO_REGION=us-west-2
       - DYNAMO_TABLE_NAME=taar_addon_data_20180206
-      - TAAR_MAX_RESULTS=10
+
+      # Pickup the AWS secret and access key from host env
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_ACCESS_KEY_ID
+      - CACHE_URL
+      - TAAR_CACHE_EXPIRY
     build: .
     ports:
       - "8000:8000"
@@ -12,3 +25,5 @@ services:
       - .:/app
     command:
       "web-dev"
+    links:
+      - redis
