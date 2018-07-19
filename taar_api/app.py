@@ -11,7 +11,6 @@ app = Flask(__name__)
 dockerflow = Dockerflow(app)
 
 # Hook the application plugin and configure it
-
 app_entries = list(pkg_resources.iter_entry_points('taarapi_app'))
 
 # There should only be a single registered app for the taar-api
