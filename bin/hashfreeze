@@ -1,6 +1,7 @@
 #!/bin/bash
+rm requirements.txt
 touch requirements.txt
-for fname in `pip freeze |grep -v hashin| sed -e "s/==.*//"`
+for fname in `pip freeze |grep -v hashin`
 do 
     echo "Processing "$fname
     hashin $fname

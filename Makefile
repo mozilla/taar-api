@@ -31,5 +31,4 @@ ci:
 
 # Updating pip hashes is awful
 freeze:
-	touch requirements.txt
-	pip freeze |grep -v hashin| sed -e "s/==.*//"|xargs hashin
+	bin/hashfreeze
