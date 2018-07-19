@@ -1,4 +1,4 @@
-FROM python:3.4.8-jessie
+FROM python:3.6.5-jessie
 ENV PYTHONDONTWRITEBYTECODE 1
 
 MAINTAINER Victor Ng <vng@mozilla.com>
@@ -17,7 +17,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Upgrade pip
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip==9
 
 # First copy requirements.txt so we can take advantage of docker
 # caching.
