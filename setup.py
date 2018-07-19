@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='taar_api',
-    version='0.3',
     description='This is https://github.com/mozilla/taar_api',
-    author='Mozilla Foundation',
-    author_email='',
+    version='0.5.0',
+    author='Mozilla Corporation',
+    author_email='vng@mozilla.com',
     url='https://github.com/mozilla/taar_api',
     packages=find_packages(exclude=['tests', 'tests/*']),
 )
