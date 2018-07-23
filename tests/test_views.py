@@ -1,5 +1,6 @@
 from flask import url_for
 from taar_api.app import app as flask_app
+import taar_api.app
 import pytest
 import uuid
 
@@ -52,26 +53,21 @@ class PlatformRecommendationManager(FakeRecommendationManager):
 
 @pytest.fixture
 def empty_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
-                        EmptyRecommendationManager())
-
+    taar_api.app.APP_WRAPPER.set({'PROXY_RESOURCE': EmptyRecommendationManager()})
 
 @pytest.fixture
 def static_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
-                        StaticRecommendationManager())
+    taar_api.app.APP_WRAPPER.set({'PROXY_RESOURCE': StaticRecommendationManager()})
 
 
 @pytest.fixture
 def locale_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
-                        LocaleRecommendationManager())
+    taar_api.app.APP_WRAPPER.set({'PROXY_RESOURCE': LocaleRecommendationManager()})
 
 
 @pytest.fixture
 def platform_recommendation_manager(monkeypatch):
-    monkeypatch.setattr('taar_api.app.PROXY_MANAGER._resource',
-                        PlatformRecommendationManager())
+    taar_api.app.APP_WRAPPER.set({'PROXY_RESOURCE': PlatformRecommendationManager()})
 
 
 def test_empty_recommendation(client, empty_recommendation_manager):

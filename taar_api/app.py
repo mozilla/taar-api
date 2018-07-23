@@ -18,7 +18,7 @@ assert len(app_entries) == 1
 
 # Load the function and configure the application
 configure_plugin = app_entries[0].load()
-configure_plugin(app)
+APP_WRAPPER = configure_plugin(app)
 
 def flaskrun(app, default_host="127.0.0.1", default_port="8000"):
     """
