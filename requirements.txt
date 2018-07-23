@@ -101,8 +101,8 @@ more-itertools==4.1.0 \
     --hash=sha256:c9ce7eccdcb901a2c75d326ea134e0886abfbea5f93e91cc95de9507c0816c44
 mozilla-srgutil==0.1.6 \
     --hash=sha256:e02d46d94bbf4b7cb88dd6e780c98890dafee50259e9faa655dd456bd2a18115
-mozilla-taar3==0.1.0 \
-    --hash=sha256:451ebb7059af2a3199f7dd390f024daf7e187c9b874cfabb404e116b4e889948
+mozilla-taar3==0.1.1 \
+    --hash=sha256:d2a3eef88ffaa2ea97c8a0509277faed3ed53c771d6362bfe37cb4070b47c1bb
 newrelic==3.2.0.91 \
     --hash=sha256:2d1cf00e105f423c5c5fa9ce3f6179773683e6ee52fb64016441abd225b43bf3
 numpy==1.14.2 \
