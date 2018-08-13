@@ -32,3 +32,6 @@ ci:
 # Updating pip hashes is awful
 freeze:
 	bin/hashfreeze
+
+run_dev:
+	python taar_api/app.py
