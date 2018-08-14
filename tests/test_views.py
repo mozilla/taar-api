@@ -77,14 +77,6 @@ def test_empty_recommendation(client, empty_recommendation_manager):
     assert response.data == b'{"results": []}'
 
 
-def test_static_recommendation(client, static_recommendation_manager):
-    response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
-    assert response.status_code == 200
-    assert response.headers['Content-Type'] == 'application/json'
-    expected = b'{"results": ["control-addon-1", "control-addon-2", "control-addon-N"]}'
-    assert response.data == expected
-
-
 def test_locale_recommendation(client, locale_recommendation_manager):
     response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4())+"?locale=en-US")
     assert response.status_code == 200
@@ -110,34 +102,21 @@ def test_platform_recommendation(client, platform_recommendation_manager):
     assert response.data == b'{"results": []}'
 
 
-def test_linear_branch(client, static_recommendation_manager):
+def test_intervention_a(client, static_recommendation_manager):
     url = url_for('recommendations', uuid_client_id=uuid.uuid4())
-    response = client.get(url + "?branch=linear")
+    response = client.get(url + "?branch=intervention-a")
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'application/json'
-    expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
-    assert response.data == expected
-
-    response = client.get(url + "?branch=linear-taar")
-    assert response.status_code == 200
-    assert response.headers['Content-Type'] == 'application/json'
-    expected = b'{"results": ["linear-addon-1", "linear-addon-2", "linear-addon-N"]}'
+    expected = b'{"results": ["intervention-a-addon-1", "intervention-a-addon-2", "intervention-a-addon-N"]}'
     assert response.data == expected
 
 
-def test_ensemble_branch(client, static_recommendation_manager):
+def test_intervention_b(client, static_recommendation_manager):
     url = url_for('recommendations', uuid_client_id=uuid.uuid4())
-    response = client.get(url + "?branch=ensemble")
+    response = client.get(url + "?branch=intervention_b")
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'application/json'
-    expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
-    assert response.data == expected
-
-    url = url_for('recommendations', uuid_client_id=uuid.uuid4())
-    response = client.get(url + "?branch=ensemble-taar")
-    assert response.status_code == 200
-    assert response.headers['Content-Type'] == 'application/json'
-    expected = b'{"results": ["ensemble-addon-1", "ensemble-addon-2", "ensemble-addon-N"]}'
+    expected = b'{"results": ["intervention_b-addon-1", "intervention_b-addon-2", "intervention_b-addon-N"]}'
     assert response.data == expected
 
 
