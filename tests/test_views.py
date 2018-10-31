@@ -1,5 +1,4 @@
 from flask import url_for
-from taar_api.app import app as flask_app
 import taar_api.app
 import pytest
 import uuid
@@ -70,6 +69,7 @@ def platform_recommendation_manager(monkeypatch):
     taar_api.app.APP_WRAPPER.set({'PROXY_RESOURCE': PlatformRecommendationManager()})
 
 
+@pytest.mark.skip("move this to taar library")
 def test_empty_recommendation(client, empty_recommendation_manager):
     response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4()))
     assert response.status_code == 200
@@ -77,6 +77,7 @@ def test_empty_recommendation(client, empty_recommendation_manager):
     assert response.data == b'{"results": []}'
 
 
+@pytest.mark.skip("move this to taar library")
 def test_locale_recommendation(client, locale_recommendation_manager):
     response = client.get(url_for('recommendations', uuid_client_id=uuid.uuid4())+"?locale=en-US")
     assert response.status_code == 200
@@ -89,6 +90,7 @@ def test_locale_recommendation(client, locale_recommendation_manager):
     assert response.data == b'{"results": []}'
 
 
+@pytest.mark.skip("move this to taar library")
 def test_platform_recommendation(client, platform_recommendation_manager):
     uri = url_for('recommendations', uuid_client_id=str(uuid.uuid4()))+"?platform=WOW64"
     response = client.get(uri)
@@ -102,6 +104,7 @@ def test_platform_recommendation(client, platform_recommendation_manager):
     assert response.data == b'{"results": []}'
 
 
+@pytest.mark.skip("move this to taar library")
 def test_intervention_a(client, static_recommendation_manager):
     url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=intervention-a")
@@ -111,6 +114,7 @@ def test_intervention_a(client, static_recommendation_manager):
     assert response.data == expected
 
 
+@pytest.mark.skip("move this to taar library")
 def test_intervention_b(client, static_recommendation_manager):
     url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=intervention_b")
@@ -120,6 +124,7 @@ def test_intervention_b(client, static_recommendation_manager):
     assert response.data == expected
 
 
+@pytest.mark.skip("move this to taar library")
 def test_control_branch(client, static_recommendation_manager):
     url = url_for('recommendations', uuid_client_id=uuid.uuid4())
     response = client.get(url + "?branch=control")

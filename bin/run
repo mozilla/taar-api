@@ -28,10 +28,6 @@ wait_for() {
 
 [ $# -lt 1 ] && usage
 
-# Only wait for backend services in development
-# http://stackoverflow.com/a/13864829
-# [ ! -z ${DEVELOPMENT+check} ] && wait_for db 5432 && wait_for redis 6379
-
 case $1 in
   web)
     exec newrelic-admin run-program gunicorn taar_api.app:app -b 0.0.0.0:${PORT} --workers ${WORKERS} --threads ${THREADS} --access-logfile -

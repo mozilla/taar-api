@@ -1,4 +1,4 @@
-FROM python:3.6.5-jessie
+FROM python:3.7.1-stretch
 ENV PYTHONDONTWRITEBYTECODE 1
 
 MAINTAINER Victor Ng <vng@mozilla.com>
@@ -22,7 +22,7 @@ RUN pip install --upgrade pip==9
 # First copy requirements.txt so we can take advantage of docker
 # caching.
 COPY requirements.txt /app/requirements.txt
-RUN pip install --require-hashes --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 USER app
